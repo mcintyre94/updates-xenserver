@@ -12,6 +12,13 @@ def get_session(host, username, password):
     session.login_with_password(username, password)
     return session
 
+
+def get_hostname(session):
+    host_refs = session.xenapi.host.get_all_records()
+    for host_ref in host_refs:
+        host = session.xenapi.host.get_record(host_ref)
+    return host['hostname']
+
 def get_installed_updates(session):
     patch_refs = session.xenapi.pool_update.get_all_records()
     updates = []
@@ -149,7 +156,8 @@ def main(hosts):
     results = {}
     for host in hosts:
         session = get_session(host, 'root', 'xenroot')
-        results[host] = get_results_for_host(session)
+        hostname = get_hostname(session)
+        results[hostname] = get_results_for_host(session)
     
     return results
 
