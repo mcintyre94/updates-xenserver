@@ -131,6 +131,9 @@ def get_results_for_host(session):
         
         results = {}
 
+        results['current_version'] = host_version
+        results['track'] = track
+
         # current_version_patches
         all_patches_for_version = get_patches_for_version(cfu_root, host_version)
         missing_patches = get_missing_patches(all_patches_for_version, installed_updates)
