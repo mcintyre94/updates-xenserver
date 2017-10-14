@@ -156,8 +156,7 @@ def main(hosts):
     results = {}
     for host in hosts:
         session = get_session(host, 'root', 'xenroot')
-        hostname = get_hostname(session)
-        results[hostname] = get_results_for_host(session)
+        results[host] = get_results_for_host(session)
     
     return results
 
