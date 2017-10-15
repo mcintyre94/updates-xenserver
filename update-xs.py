@@ -4,6 +4,7 @@ import XenAPI
 import sys
 import json
 import requests
+import socket
 import xml.etree.ElementTree as ET
 
 
@@ -158,7 +159,14 @@ def get_results_for_host(session):
 def main(hosts):
     results = {}
     for host in hosts:
-        session = get_session(host, 'root', 'xenroot')
+        try:
+            session = get_session(host, 'root', 'xenroot')
+        except:
+            print("Failed to create session on %s" % host)
+            print(sys.exc_info()[0])
+            print("Continuing...")
+            continue
+        
         results[host] = get_results_for_host(session)
     
     return results
