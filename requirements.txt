@@ -1,0 +1,16 @@
+attrs==17.3.0
+Automat==0.6.0
+certifi==2017.11.5
+chardet==3.0.4
+constantly==15.1.0
+gevent==1.2.2
+greenlet==0.4.12
+grequests==0.3.0
+hyperlink==17.3.1
+idna==2.6
+incremental==17.5.0
+requests==2.18.4
+six==1.11.0
+Twisted==17.9.0
+urllib3==1.22
+zope.interface==4.4.3
