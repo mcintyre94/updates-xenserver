@@ -6,9 +6,7 @@ This should be the only script that can make calls on the host and is given cred
 """
 
 import argparse
-import configparser
 import grequests
-import urllib.parse
 import XenAPI
 
 def get_session(host, username, password):
@@ -33,42 +31,15 @@ def get_installed_updates(session):
     return list(set(updates)) # Ensure unique
 
 
-def parse_args_or_exit():
-  parser = argparse.ArgumentParser()
-  parser.add_argument("host")
-  parser.add_argument("username")
-  parser.add_argument("password")
-  return parser.parse_args()
-
-
-def main():
+def analyse_host(host, username, password):
+    session = get_session(host, username, password)
     server_version = get_server_version(session)
     installed_updates = get_installed_updates(session)
 
     response = {
-        "host": args.host,
+        "host": host,
         "host_version": server_version,
         "installed_updates": installed_updates
     }
 
-    print(response)
-    print("Submitting...")
-
-    config = configparser.ConfigParser()
-    config.read('credentials.cfg')
-    submit_url = config.get('submitAPI', 'url')
-
-    grequests.post(submit_url, json=response)
-
-    print("Submitted")
-
-    
-
-if __name__ == '__main__':
-    args = parse_args_or_exit()
-    session = get_session(args.host, args.username, args.password)
-  
-    try:
-        main()
-    finally:
-        session.xenapi.session.logout()
+    return response
