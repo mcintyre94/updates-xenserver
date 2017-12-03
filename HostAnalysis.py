@@ -6,7 +6,6 @@ This should be the only script that can make calls on the host and is given cred
 """
 
 import argparse
-import grequests
 import XenAPI
 
 def get_session(host, username, password):
@@ -37,7 +36,6 @@ def analyse_host(host, username, password):
     installed_updates = get_installed_updates(session)
 
     response = {
-        "host": host,
         "host_version": server_version,
         "installed_updates": installed_updates
     }
