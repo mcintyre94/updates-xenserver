@@ -21,23 +21,36 @@ sleep_time = 10
 
 def get_hosts():
     print("Getting hosts...")
-    return requests.get(read_hosts_url).json()
+    read_key = config.get('apis', 'read_key')
+    params = {
+        'subset': 'pending',
+        'code': read_key
+    }
+    return requests.get(read_hosts_url, params=params).json()
+
+
+def should_analyse_host(host):
+    # TODO: Needs to be smarter about when hosts should be re-analysed
+    return 'host_version' not in host or 'installed_updates' not in host
 
 
 def handle_host(host):
-    print("Analysing host %s..." % host)
+    print("Analysing host %s..." % host['host'])
     host_url = host['host']
     results = HostAnalysis.analyse_host(host_url, username, password)
     
     host.update(results) # Only change fields we've changed
     host['pending'] = True # Ensure this row gets processed
 
-    requests.post(write_hosts_url, json=host)
+    print("posting analysed host...")
+    write_key = config.get('apis', 'write_key')
+    requests.post(write_hosts_url, json=host, params={'code': write_key})
     print("posted...")
 
 
 def analyse_all_hosts():
     hosts = get_hosts()
+    hosts = list(filter(should_analyse_host, hosts))
     print(hosts)
 
     for host in hosts:
