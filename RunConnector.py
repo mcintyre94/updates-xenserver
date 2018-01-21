@@ -26,6 +26,7 @@ def get_hosts():
         'subset': 'pending',
         'code': read_key
     }
+    print(read_hosts_url, read_key)
     return requests.get(read_hosts_url, params=params).json()
 
 
@@ -44,7 +45,8 @@ def handle_host(host):
 
     print("posting analysed host...")
     write_key = config.get('apis', 'write_key')
-    requests.post(write_hosts_url, json=host, params={'code': write_key})
+    r = requests.post(write_hosts_url, json=host, params={'code': write_key})
+    # TODO: error handling of the response
     print("posted...")
 
 
