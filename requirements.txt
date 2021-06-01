@@ -12,5 +12,5 @@ incremental==17.5.0
 requests==2.18.4
 six==1.11.0
 Twisted==17.9.0
-urllib3==1.22
+urllib3==1.26.5
 zope.interface==4.4.3
