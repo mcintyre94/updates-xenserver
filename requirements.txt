@@ -11,6 +11,6 @@ idna==2.6
 incremental==17.5.0
 requests==2.18.4
 six==1.11.0
-Twisted==17.9.0
+Twisted==22.4.0
 urllib3==1.22
 zope.interface==4.4.3
